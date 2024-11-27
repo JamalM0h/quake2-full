@@ -574,3 +574,30 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 		}
 	}
 }
+
+void Inhaled(edict_t *ent)
+{
+	/* https://web.archive.org/web/20051227032158/http://www.planetquake.com/qdevels/quake2/28_1_98j.html  lines 582 - 596 */
+
+	vec3_t	start;
+	vec3_t	forward; 
+	vec3_t	end; 
+	trace_t	tr;
+	
+    VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT); 
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))  
+		{
+		VectorScale(forward, -125, forward);
+		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+		
+		if (findradius(ent, ent->s.origin, 45) == tr.ent)
+		{
+			G_FreeEdict(tr.ent); 
+		}
+		}
+	
+}
