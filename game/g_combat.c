@@ -594,7 +594,7 @@ void Inhaled(edict_t *ent)
 		VectorScale(forward, -125, forward);
 		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
 
-		if (findradius(ent, ent->s.origin, 45) == tr.ent)
+		if (findradius(ent, ent->s.origin, 60) == tr.ent)
 		{
 			G_FreeEdict(tr.ent);
 		}

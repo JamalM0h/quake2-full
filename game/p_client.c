@@ -1693,6 +1693,16 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			other->touch (other, ent, NULL, NULL);
 		}
 
+		if (client->floating == true)
+		{
+			ent->velocity[2] += 7;
+		}
+
+		if (level.time > client->floattime + 1.5)
+		{
+			client->floating = false;
+		}
+
 	}
 
 	client->oldbuttons = client->buttons;
