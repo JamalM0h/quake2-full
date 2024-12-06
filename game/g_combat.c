@@ -587,7 +587,7 @@ void Inhaled(edict_t *ent)
 	VectorCopy(ent->s.origin, start);
 	start[2] += ent->viewheight;
 	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
-	VectorMA(start, 8192, forward, end);
+	VectorMA(start, 300, forward, end);
 	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
 	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
 	{
@@ -598,5 +598,23 @@ void Inhaled(edict_t *ent)
 		{
 			G_FreeEdict(tr.ent);
 		}
+	}
+}
+
+void SwordHit(edict_t* ent)
+{
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	trace_t	tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 150, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 10, 5, DAMAGE_BULLET, MZ_BLASTER);
 	}
 }
