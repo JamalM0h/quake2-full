@@ -618,3 +618,33 @@ void SwordHit(edict_t* ent)
 		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 10, 5, DAMAGE_BULLET, MZ_BLASTER);
 	}
 }
+
+void WheelAttack(edict_t* ent)
+{
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	trace_t	tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 25, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+
+	VectorScale(forward, 200, forward);
+	ent->velocity[2] += -200;
+	ent->velocity[1] += forward[1];
+	ent->velocity[0] += forward[0];
+	
+
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 7, 0, DAMAGE_BULLET, MZ_BLASTER);
+
+		VectorScale(forward, 10, forward);
+		tr.ent->velocity[1] += forward[1]; 
+		tr.ent->velocity[0] += forward[0]; 
+
+	}
+}
