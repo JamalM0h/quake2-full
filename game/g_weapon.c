@@ -570,7 +570,7 @@ fire_rocket
 void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
 	vec3_t		origin;
-	int			n;
+	int			n, phealth;
 
 	if (other == ent->owner)
 		return;
@@ -605,7 +605,15 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 		}
 	}
 
+	phealth = ent->owner->health;
+
 	T_RadiusDamage(ent, ent->owner, ent->radius_dmg, other, ent->dmg_radius, MOD_R_SPLASH);
+	
+	if (ent->owner->client)
+	{
+		ent->velocity[2] = 0;
+		ent->owner->health = phealth;
+	}
 
 	gi.WriteByte (svc_temp_entity);
 	if (ent->waterlevel)
