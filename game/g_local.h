@@ -658,6 +658,7 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 void Inhaled(edict_t *ent);
 void SwordHit(edict_t  *ent);
 void WheelAttack(edict_t *ent);
+void HammerSlam(edict_t *ent);
 
 // damage flags
 #define DAMAGE_RADIUS			0x00000001	// damage was indirect

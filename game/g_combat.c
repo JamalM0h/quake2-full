@@ -648,3 +648,27 @@ void WheelAttack(edict_t* ent)
 
 	}
 }
+
+void HammerSlam(edict_t* ent)
+{
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	vec3_t  down;
+	trace_t	tr;
+	int phealth;
+
+	down[0] = 0;
+	down[1] = 0;
+	down[2] = -1;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += 2 * ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 50, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+
+	fire_rocket(ent, tr.endpos, down, 30, 450, 1000, 50);
+
+
+}
