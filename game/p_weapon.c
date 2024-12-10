@@ -563,10 +563,18 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 
 	timer = ent->client->grenade_time - level.time;
 	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
-	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
-
+	if (!held)
+	{
+		forward[2] = 0;
+		fire_grenade2(ent, ent->s.origin, forward, 35, 500, 2, 1000, false);
+	}
+	else
+	{
+		fire_grenade(ent, start, forward, 80, 400, 2, 2500);
+	}
+	
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		ent->client->pers.inventory[ent->client->ammo_index]-= 0;
 
 	ent->client->grenade_time = level.time + 1.0;
 
@@ -655,7 +663,7 @@ void Weapon_Grenade (edict_t *ent)
 			}
 
 			// they waited too long, detonate it in their hand
-			if (!ent->client->grenade_blew_up && level.time >= ent->client->grenade_time)
+			if (!ent->client->grenade_blew_up && level.time >= ent->client->grenade_time - 2.5)
 			{
 				ent->client->weapon_sound = 0;
 				weapon_grenade_fire (ent, true);
@@ -1224,9 +1232,50 @@ void weapon_shotgun_fire (edict_t *ent)
 	}
 
 	if (deathmatch->value)
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+		fire_shotgun(ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
 	else
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+
+		forward[2] = 0;
+
+		forward[0] = 0;
+		forward[1] = 1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = 1;
+		forward[1] = 0;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = 0;
+		forward[1] = -1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = -1;
+		forward[1] = 0;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = 1;
+		forward[1] = 1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = 1;
+		forward[1] = -1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = -1;
+		forward[1] = 1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
+
+		forward[0] = -1;
+		forward[1] = -1;
+
+		fire_blaster(ent, start, forward, 25, 100, 0, false);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
