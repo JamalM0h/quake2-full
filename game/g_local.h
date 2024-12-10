@@ -738,6 +738,8 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick);
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
 
+void fire_cutter (edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
+
 //
 // g_ptrail.c
 //
@@ -1029,6 +1031,9 @@ struct edict_s
 	edict_t		*target_ent;
 
 	float		speed, accel, decel;
+	
+	float       turnaround;
+
 	vec3_t		movedir;
 	vec3_t		pos1, pos2;
 
