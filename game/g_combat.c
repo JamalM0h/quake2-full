@@ -583,6 +583,7 @@ void Inhaled(edict_t *ent)
 	vec3_t	forward; 
 	vec3_t	end; 
 	trace_t	tr;
+	gitem_t* it;  
 
 	VectorCopy(ent->s.origin, start);
 	start[2] += ent->viewheight;
@@ -594,9 +595,15 @@ void Inhaled(edict_t *ent)
 		VectorScale(forward, -125, forward);
 		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
 
-		if (findradius(ent, ent->s.origin, 60) == tr.ent)
+		if (findradius(ent, ent->s.origin, 75) == tr.ent)
 		{
+			ent->client->InhaledAbility = tr.ent->heldAbility;
+		
 			G_FreeEdict(tr.ent);
+
+			it = FindItem("BFG10K"); 
+			it->use(ent, it);  
+
 		}
 	}
 }

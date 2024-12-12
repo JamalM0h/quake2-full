@@ -610,11 +610,71 @@ void InitClientPersistant (gclient_t *client)
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
+	item = FindItem("Chaingun");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
 
+	item = FindItem("Shotgun");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("grenades");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Grenade Launcher");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Super Shotgun");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Machinegun");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Railgun");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("HyperBlaster");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("BFG10K");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Rocket Launcher");
+	client->pers.selected_item = ITEM_INDEX(item); 
+	client->pers.inventory[client->pers.selected_item] = 1;
+
+	item = FindItem("Chaingun");
+
 	client->pers.weapon = item;
+
+	item = FindItem("Bullets");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
+
+	item = FindItem("Shells");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
+
+	item = FindItem("Cells");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
+
+	item = FindItem("Rockets");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
+
+	item = FindItem("Grenades");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
+
+	item = FindItem("Slugs");
+	client->pers.inventory[ITEM_INDEX(item)] += 100;
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
@@ -626,7 +686,11 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_cells		= 200;
 	client->pers.max_slugs		= 50;
 
+	client->InhaledAbility      = NULL; 
+
 	client->pers.connected = true;
+
+
 }
 
 

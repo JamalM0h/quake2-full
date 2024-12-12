@@ -739,6 +739,7 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
 
 void fire_cutter (edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
+void fire_fire(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, int effect, qboolean hyper);
 
 //
 // g_ptrail.c
@@ -969,6 +970,8 @@ struct gclient_s
 	
 	qboolean    floating;
 	float       floattime;
+
+	int		    InhaledAbility;
 };
 
 
@@ -1043,6 +1046,7 @@ struct edict_s
 	float		air_finished;
 	float		gravity;		// per entity gravity multiplier (1.0 is normal)
 								// use for lowgrav artifact, flares
+	int		    heldAbility;
 
 	edict_t		*goalentity;
 	edict_t		*movetarget;

@@ -619,6 +619,8 @@ void SP_monster_gunner (edict_t *self)
 	self->monsterinfo.sight = gunner_sight;
 	self->monsterinfo.search = gunner_search;
 
+	self->heldAbility = 1;
+		
 	gi.linkentity (self);
 
 	self->monsterinfo.currentmove = &gunner_move_stand;	

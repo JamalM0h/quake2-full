@@ -908,6 +908,82 @@ void Cmd_FloatJump_f(edict_t* ent)
 
 }
 
+void Cmd_CopyAbility(edict_t* ent)
+{
+	gitem_t* it; 
+
+	if (ent->client->InhaledAbility != NULL)
+	{
+
+		if (ent->client->InhaledAbility == 1)
+		{
+			it = FindItem("Blaster");
+			gi.cprintf(ent, PRINT_HIGH, "You got Sword\n");
+		}
+
+		else if(ent->client->InhaledAbility == 2)
+		{
+			it = FindItem("Shotgun");
+			gi.cprintf(ent, PRINT_HIGH, "You got Needle\n");
+		}
+
+		else if(ent->client->InhaledAbility == 3)
+		{
+			it = FindItem("Super Shotgun");
+
+		}
+
+		else if (ent->client->InhaledAbility == 4)
+		{
+			it = FindItem("Machinegun");
+		}
+
+		else if (ent->client->InhaledAbility == 5)
+		{
+			it = FindItem("Grenade Launcher");
+			gi.cprintf(ent, PRINT_HIGH, "You got Cutter\n");
+		}
+
+		else if (ent->client->InhaledAbility == 6)
+		{
+			it = FindItem("Rocket Launcher");
+			gi.cprintf(ent, PRINT_HIGH, "You got Stone\n");
+		}
+
+		else if (ent->client->InhaledAbility == 7)
+		{
+			it = FindItem("HyperBlaster");
+			gi.cprintf(ent, PRINT_HIGH, "You got Wheel\n");
+		}
+
+		else if (ent->client->InhaledAbility == 8)
+		{
+			it = FindItem("Railgun");
+			gi.cprintf(ent, PRINT_HIGH, "You got Hammer\n");
+		}
+
+		else if (ent->client->InhaledAbility == 9)
+		{
+			it = FindItem("BFG10K");
+		}
+
+		else if (ent->client->InhaledAbility == 10)
+		{
+			it = FindItem("grenades");
+			gi.cprintf(ent, PRINT_HIGH, "You got Bomb\n");
+		}
+
+		else 
+		{
+			it = FindItem("Chaingun");
+		}
+
+		it->use(ent, it);   
+		  
+		ent->client->InhaledAbility = NULL; 
+	} 
+}
+
 
 /*
 =================
@@ -998,6 +1074,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_PlayerList_f(ent);
 	else if (Q_stricmp(cmd, "floatjump") == 0)
 		Cmd_FloatJump_f(ent);
+	else if (Q_stricmp(cmd, "copyability") == 0)
+		Cmd_CopyAbility(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

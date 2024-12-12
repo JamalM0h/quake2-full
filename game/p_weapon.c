@@ -745,7 +745,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		ent->client->pers.inventory[ent->client->ammo_index] -= 0;
 }
 
 void Weapon_GrenadeLauncher (edict_t *ent)
@@ -1033,7 +1033,9 @@ void Machinegun_Fire (edict_t *ent)
 	AngleVectors (angles, forward, right, NULL);
 	VectorSet(offset, 0, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+	
+	fire_fire(ent, start, forward, damage, 500, 0, false);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -1043,7 +1045,7 @@ void Machinegun_Fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		ent->client->pers.inventory[ent->client->ammo_index] -= 0;
 
 	ent->client->anim_priority = ANIM_ATTACK;
 	if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
@@ -1135,7 +1137,7 @@ void Chaingun_Fire (edict_t *ent)
 	else
 		shots = 3;
 
-	if (ent->client->pers.inventory[ent->client->ammo_index] < shots)
+	if (ent->client->pers.inventory[ent->client->ammo_index] < shots) 
 		shots = ent->client->pers.inventory[ent->client->ammo_index];
 
 	if (!shots)
@@ -1287,7 +1289,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		ent->client->pers.inventory[ent->client->ammo_index]-= 0;
 }
 
 void Weapon_Shotgun (edict_t *ent)
@@ -1341,7 +1343,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 2;
+		ent->client->pers.inventory[ent->client->ammo_index] -= 0;
 }
 
 void Weapon_SuperShotgun (edict_t *ent)
@@ -1434,6 +1436,7 @@ void weapon_bfg_fire (edict_t *ent)
 	vec3_t	forward, right;
 	int		damage;
 	float	damage_radius = 1000;
+	gitem_t* it; 
 
 	if (deathmatch->value)
 		damage = 200;
@@ -1476,14 +1479,22 @@ void weapon_bfg_fire (edict_t *ent)
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_bfg (ent, start, forward, damage, 400, damage_radius);
+	//fire_bfg (ent, start, forward, damage, 400, damage_radius);
+	fire_rocket(ent, start, forward, damage, 300, 500, 50);
+
+	ent->client->InhaledAbility = NULL;  
+
+	it = FindItem("Chaingun");  
+	it->use(ent, it);  
+
+
 
 	ent->client->ps.gunframe++;
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 50;
+		ent->client->pers.inventory[ent->client->ammo_index] -= 0;
 }
 
 void Weapon_BFG (edict_t *ent)

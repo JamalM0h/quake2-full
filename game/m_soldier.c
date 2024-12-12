@@ -1225,6 +1225,8 @@ void SP_monster_soldier_x (edict_t *self)
 	self->monsterinfo.melee = NULL;
 	self->monsterinfo.sight = soldier_sight;
 
+	self->heldAbility = 1;
+
 	gi.linkentity (self);
 
 	self->monsterinfo.stand (self);
