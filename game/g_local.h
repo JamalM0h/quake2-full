@@ -659,6 +659,8 @@ void Inhaled(edict_t *ent);
 void SwordHit(edict_t  *ent);
 void WheelAttack(edict_t *ent);
 void HammerSlam(edict_t *ent);
+void JetAttack(edict_t *ent);
+void JetAttack2(edict_t* ent);
 
 // damage flags
 #define DAMAGE_RADIUS			0x00000001	// damage was indirect
@@ -739,6 +741,7 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
 
 void fire_cutter (edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
+void fire_stone(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage);
 void fire_fire(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, int effect, qboolean hyper);
 
 //
@@ -1125,6 +1128,6 @@ struct edict_s
 
 	// common data blocks
 	moveinfo_t		moveinfo;
-	monsterinfo_t	monsterinfo;
+	monsterinfo_t	monsterinfo;   
 };
 

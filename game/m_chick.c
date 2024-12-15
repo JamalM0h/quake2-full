@@ -463,7 +463,8 @@ void ChickRocket (edict_t *self)
 	VectorSubtract (vec, start, dir);
 	VectorNormalize (dir);
 
-	monster_fire_rocket (self, start, dir, 50, 500, MZ2_CHICK_ROCKET_1);
+	//monster_fire_rocket (self, start, dir, 50, 500, MZ2_CHICK_ROCKET_1);
+	fire_cutter(self, start, dir, 5, 700, 10);
 }	
 
 void Chick_PreAttack1 (edict_t *self)
@@ -667,6 +668,8 @@ void SP_monster_chick (edict_t *self)
 	self->monsterinfo.attack = chick_attack;
 	self->monsterinfo.melee = chick_melee;
 	self->monsterinfo.sight = chick_sight;
+
+	self->heldAbility = 5;
 
 	gi.linkentity (self);
 

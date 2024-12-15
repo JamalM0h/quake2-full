@@ -322,10 +322,10 @@ void HelpComputer (edict_t *ent)
 		"xv 0 yv 110 cstring2 \"%s\" "		// help 2
 		"xv 50 yv 164 string2 \" kills     goals    secrets\" "
 		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
-		sk,
-		level.level_name,
-		game.helpmessage1,
-		game.helpmessage2,
+		"kirby",
+		"Press the F key to float",
+		"Use chaingun to inhale \n monsters and use the V key \n to copy their power",
+		"Press the V key to drop \n an ability and regain \n inhale again",
 		level.killed_monsters, level.total_monsters, 
 		level.found_goals, level.total_goals,
 		level.found_secrets, level.total_secrets);
@@ -333,6 +333,66 @@ void HelpComputer (edict_t *ent)
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);
 	gi.unicast (ent, true);
+}
+
+void HelpComputer2(edict_t* ent)
+{
+	char	string[1024];
+	char   *ability;
+
+	if (ent->client->InhaledAbility == 11)
+	{
+		ability = "Sword";
+	}
+
+	if (ent->client->InhaledAbility == 12)
+	{
+		ability = "Needle";
+	}
+
+	if (ent->client->InhaledAbility == 13)
+	{
+		ability = "Jet";
+	}
+
+	if (ent->client->InhaledAbility == 14)
+	{
+		ability = "Fire";
+	}
+
+	if (ent->client->InhaledAbility == 15)
+	{
+		ability = "Cutter";
+	}
+
+	if (ent->client->InhaledAbility == 16)
+	{
+		ability = "Stone";
+	}
+
+	if (ent->client->InhaledAbility == 17)
+	{
+		ability = "Wheel";
+	}
+
+	if (ent->client->InhaledAbility == 18)
+	{
+		ability = "Hammer";
+	}
+
+	if (ent->client->InhaledAbility == 19)
+	{
+		ability = "Bomb";
+	}
+
+	// send the layout
+	Com_sprintf(string, sizeof(string),
+		"xv -340 yv 470 cstring2 \"%s\" ",
+		ability); 
+	
+	gi.WriteByte(svc_layout);
+	gi.WriteString(string);
+	gi.unicast(ent, true);
 }
 
 
@@ -363,7 +423,30 @@ void Cmd_Help_f (edict_t *ent)
 
 	ent->client->showhelp = true;
 	ent->client->pers.helpchanged = 0;
-	HelpComputer (ent);
+	HelpComputer (ent); 
+}
+
+void Cmd_Help_f2(edict_t* ent)
+{
+	// this is for backwards compatability
+	if (deathmatch->value)
+	{
+		Cmd_Score_f(ent);
+		return;
+	}
+
+	ent->client->showinventory = false;
+	ent->client->showscores = false;
+
+	if (ent->client->showhelp && (ent->client->pers.game_helpchanged == game.helpchanged))
+	{
+		ent->client->showhelp = false;
+		return;
+	}
+
+	ent->client->showhelp = true;
+	ent->client->pers.helpchanged = 0;
+	HelpComputer2(ent);
 }
 
 

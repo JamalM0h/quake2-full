@@ -254,24 +254,118 @@ void mutant_run (edict_t *self)
 
 void mutant_hit_left (edict_t *self)
 {
-	vec3_t	aim;
+	vec3_t	aim, forward, right, start;
 
-	VectorSet (aim, MELEE_DISTANCE, self->mins[0], 8);
-	if (fire_hit (self, aim, (10 + (rand() %5)), 100))
-		gi.sound (self, CHAN_WEAPON, sound_hit, 1, ATTN_NORM, 0);
-	else
-		gi.sound (self, CHAN_WEAPON, sound_swing, 1, ATTN_NORM, 0);
+	AngleVectors(self->s.angles, forward, right, NULL);
+	G_ProjectSource(self->s.origin, monster_flash_offset[MZ2_CHICK_ROCKET_1], forward, right, start);
+
+	//VectorSet (aim, MELEE_DISTANCE, self->maxs[0], 8);
+	//if (fire_hit (self, aim, (10 + (rand() %5)), 100))
+	//	gi.sound (self, CHAN_WEAPON, sound_hit2, 1, ATTN_NORM, 0);
+	//else
+	//	gi.sound (self, CHAN_WEAPON, sound_swing, 1, ATTN_NORM, 0);
+
+	forward[2] = 0;
+
+	forward[0] = 0;
+	forward[1] = 1;
+
+	start[2] -= 30; 
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = 0;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 0;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = 0;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = 1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = 1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
 }
 
 void mutant_hit_right (edict_t *self)
 {
-	vec3_t	aim;
+	vec3_t	aim, forward, right, start;
 
-	VectorSet (aim, MELEE_DISTANCE, self->maxs[0], 8);
-	if (fire_hit (self, aim, (10 + (rand() %5)), 100))
-		gi.sound (self, CHAN_WEAPON, sound_hit2, 1, ATTN_NORM, 0);
-	else
-		gi.sound (self, CHAN_WEAPON, sound_swing, 1, ATTN_NORM, 0);
+	AngleVectors(self->s.angles, forward, right, NULL);
+	G_ProjectSource(self->s.origin, monster_flash_offset[MZ2_CHICK_ROCKET_1], forward, right, start);
+
+	//VectorSet (aim, MELEE_DISTANCE, self->maxs[0], 8);
+	//if (fire_hit (self, aim, (10 + (rand() %5)), 100))
+	//	gi.sound (self, CHAN_WEAPON, sound_hit2, 1, ATTN_NORM, 0);
+	//else
+	//	gi.sound (self, CHAN_WEAPON, sound_swing, 1, ATTN_NORM, 0);
+
+	forward[2] = 0;
+
+	forward[0] = 0;
+	forward[1] = 1;
+
+	start[2] -= 30;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = 0;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 0;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = 0;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = 1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = 1;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = 1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
+
+	forward[0] = -1;
+	forward[1] = -1;
+
+	fire_blaster(self, start, forward, 25, 100, 0, false);
 }
 
 void mutant_check_refire (edict_t *self)
@@ -653,6 +747,8 @@ void SP_monster_mutant (edict_t *self)
 	self->monsterinfo.search = mutant_search;
 	self->monsterinfo.idle = mutant_idle;
 	self->monsterinfo.checkattack = mutant_checkattack;
+
+	self->heldAbility = 2;
 
 	gi.linkentity (self);
 	

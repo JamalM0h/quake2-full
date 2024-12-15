@@ -582,7 +582,7 @@ void Inhaled(edict_t *ent)
 	vec3_t	start; 
 	vec3_t	forward; 
 	vec3_t	end; 
-	trace_t	tr;
+	trace_t	tr, close; 
 	gitem_t* it;  
 
 	VectorCopy(ent->s.origin, start);
@@ -590,19 +590,30 @@ void Inhaled(edict_t *ent)
 	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
 	VectorMA(start, 300, forward, end);
 	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
-	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	VectorMA(start, 25, forward, end);
+	close = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client))) 
 	{
 		VectorScale(forward, -125, forward);
 		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
 
-		if (findradius(ent, ent->s.origin, 75) == tr.ent)
+		if (close.ent && ((close.ent->svflags & SVF_MONSTER) || (close.ent->client))) 
 		{
 			ent->client->InhaledAbility = tr.ent->heldAbility;
+			
 		
 			G_FreeEdict(tr.ent);
 
-			it = FindItem("BFG10K"); 
+			it = FindItem("Chaingun");
+			ent->client->pers.selected_item = ITEM_INDEX(it); 
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 0; 
+
+			it = FindItem("BFG10K");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
 			it->use(ent, it);  
+
 
 		}
 	}
@@ -647,13 +658,77 @@ void WheelAttack(edict_t* ent)
 
 	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
 	{
-		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 7, 0, DAMAGE_BULLET, MZ_BLASTER);
+		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 14, 0, DAMAGE_BULLET, MZ_BLASTER); 
 
 		VectorScale(forward, 10, forward);
 		tr.ent->velocity[1] += forward[1]; 
 		tr.ent->velocity[0] += forward[0]; 
 
 	}
+}
+
+void JetAttack(edict_t* ent) 
+{
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	trace_t	tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 25, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+
+	VectorScale(forward, 200, forward);
+	ent->velocity[1] += forward[1];
+	ent->velocity[0] += forward[0];
+	ent->velocity[2] += forward[2];
+
+
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 14, 0, DAMAGE_BULLET, MZ_BLASTER);
+
+		VectorScale(forward, 10, forward);
+		tr.ent->velocity[1] += forward[1];
+		tr.ent->velocity[0] += forward[0];
+
+	}
+
+
+}
+
+void JetAttack2(edict_t* ent)
+{
+	vec3_t	start; 
+	vec3_t	forward; 
+	vec3_t	end; 
+	trace_t	tr; 
+
+	VectorCopy(ent->s.origin, start); 
+	start[2] += ent->viewheight; 
+	AngleVectors(ent->s.angles, forward, NULL, NULL); 
+	VectorMA(start, 25, forward, end); 
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT); 
+
+	VectorScale(forward, 500, forward); 
+	ent->velocity[1] += forward[1]; 
+	ent->velocity[0] += forward[0]; 
+	ent->velocity[2] += forward[2]; 
+
+
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		T_Damage(tr.ent, ent, ent, ent->client->v_angle, tr.endpos, tr.plane.normal, 14, 0, DAMAGE_BULLET, MZ_BLASTER);
+
+		VectorScale(forward, 10, forward);
+		tr.ent->velocity[1] += forward[1];
+		tr.ent->velocity[0] += forward[0];
+
+	}
+
+
 }
 
 void HammerSlam(edict_t* ent)

@@ -908,80 +908,337 @@ void Cmd_FloatJump_f(edict_t* ent)
 
 }
 
+void Cmd_Help_f2(edict_t* ent);  
+
 void Cmd_CopyAbility(edict_t* ent)
 {
-	gitem_t* it; 
+	gitem_t* it;
 
 	if (ent->client->InhaledAbility != NULL)
 	{
 
+		it = FindItem("BFG10K");
+		ent->client->pers.selected_item = ITEM_INDEX(it);
+		ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+
+
 		if (ent->client->InhaledAbility == 1)
 		{
 			it = FindItem("Blaster");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Sword\n");
+
+			Cmd_Help_f2(ent);
 		}
 
 		else if(ent->client->InhaledAbility == 2)
 		{
 			it = FindItem("Shotgun");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Needle\n");
+
+			Cmd_Help_f2(ent); 
 		}
 
 		else if(ent->client->InhaledAbility == 3)
 		{
 			it = FindItem("Super Shotgun");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
+			gi.cprintf(ent, PRINT_HIGH, "You got Jet\n");
+
+			Cmd_Help_f2(ent);
 
 		}
 
 		else if (ent->client->InhaledAbility == 4)
 		{
 			it = FindItem("Machinegun");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
+			gi.cprintf(ent, PRINT_HIGH, "You got Fire\n");
+
+			Cmd_Help_f2(ent);
 		}
 
 		else if (ent->client->InhaledAbility == 5)
 		{
+			it = FindItem("Grenades");
+			ent->client->pers.inventory[ITEM_INDEX(it)] += 100;
+
 			it = FindItem("Grenade Launcher");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Cutter\n");
+
+			Cmd_Help_f2(ent); 
 		}
 
 		else if (ent->client->InhaledAbility == 6)
 		{
 			it = FindItem("Rocket Launcher");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Stone\n");
+
+			Cmd_Help_f2(ent); 
 		}
 
 		else if (ent->client->InhaledAbility == 7)
 		{
 			it = FindItem("HyperBlaster");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Wheel\n");
+
+			Cmd_Help_f2(ent); 
 		}
 
 		else if (ent->client->InhaledAbility == 8)
 		{
 			it = FindItem("Railgun");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it);
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Hammer\n");
+
+			Cmd_Help_f2(ent);  
 		}
 
 		else if (ent->client->InhaledAbility == 9)
 		{
-			it = FindItem("BFG10K");
-		}
+			it = FindItem("Grenades");
+			ent->client->pers.inventory[ITEM_INDEX(it)] += 100;
 
-		else if (ent->client->InhaledAbility == 10)
-		{
 			it = FindItem("grenades");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it); 
+
+			ent->client->InhaledAbility += 10;
+
 			gi.cprintf(ent, PRINT_HIGH, "You got Bomb\n");
+
+			Cmd_Help_f2(ent);  
 		}
 
 		else 
 		{
-			it = FindItem("Chaingun");
-		}
+			if (ent->client->InhaledAbility == 11)
+			{
+				it = FindItem("Blaster");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0; 
+			}
 
-		it->use(ent, it);   
-		  
-		ent->client->InhaledAbility = NULL; 
-	} 
+			if (ent->client->InhaledAbility == 12)
+			{
+				it = FindItem("Shotgun");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 13)
+			{
+				it = FindItem("Super Shotgun");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 14)
+			{
+				it = FindItem("Machinegun");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 15)
+			{
+				it = FindItem("Grenade Launcher");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+
+				it = FindItem("Grenades"); 
+				ent->client->pers.inventory[ITEM_INDEX(it)] = 0; 
+			}
+
+			if (ent->client->InhaledAbility == 16)
+			{
+				it = FindItem("Rocket Launcher");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 17)
+			{
+				it = FindItem("HyperBlaster");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 18)
+			{
+				it = FindItem("Railgun");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+			}
+
+			if (ent->client->InhaledAbility == 19)
+			{
+				it = FindItem("grenades");
+				ent->client->pers.selected_item = ITEM_INDEX(it);
+				ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
+
+				it = FindItem("Grenades");
+				ent->client->pers.inventory[ITEM_INDEX(it)] = 0;
+			}
+
+			it = FindItem("Chaingun");
+			ent->client->pers.selected_item = ITEM_INDEX(it);
+			ent->client->pers.inventory[ent->client->pers.selected_item] = 1;
+
+			it->use(ent, it); 
+
+			ent->client->InhaledAbility = NULL;
+
+			gi.cprintf(ent, PRINT_HIGH, "Dropped Ability\n");
+
+			Cmd_Help_f2(ent); 
+		} 
+	}
+}
+
+void SP_monster_berserk(edict_t* self);
+void SP_monster_gladiator(edict_t* self);
+void SP_monster_gunner(edict_t* self);
+void SP_monster_infantry(edict_t* self);
+void SP_monster_soldier_light(edict_t* self);
+void SP_monster_soldier(edict_t* self);
+void SP_monster_soldier_ss(edict_t* self);
+void SP_monster_tank(edict_t* self);
+void SP_monster_medic(edict_t* self);
+void SP_monster_flipper(edict_t* self);
+void SP_monster_chick(edict_t* self);
+void SP_monster_parasite(edict_t* self);
+void SP_monster_flyer(edict_t* self);
+void SP_monster_brain(edict_t* self);
+void SP_monster_floater(edict_t* self);
+void SP_monster_hover(edict_t* self);
+void SP_monster_mutant(edict_t* self);
+void SP_monster_supertank(edict_t* self);
+void SP_monster_boss2(edict_t* self);
+void SP_monster_jorg(edict_t* self);
+void SP_monster_boss3_stand(edict_t* self);
+
+void Cmd_Spawn_f(edict_t* ent)
+{
+	edict_t* self;
+	char* s;
+	vec3_t forward;
+	 
+	s = gi.args();  
+
+	self = G_Spawn();
+
+	if (Q_stricmp(s, "soldier") == 0) 
+	{
+		SP_monster_soldier(self);
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");  
+	}
+
+	if (Q_stricmp(s, "parasite") == 0)
+	{
+		SP_monster_parasite(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n"); 
+	}
+
+	if (Q_stricmp(s, "hover") == 0)
+	{
+		SP_monster_hover(self);  
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");
+	}
+
+	if (Q_stricmp(s, "flyer") == 0)
+	{
+		SP_monster_flyer(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n"); 
+	}
+
+	if (Q_stricmp(s, "infantry") == 0)
+	{
+		SP_monster_infantry(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");
+	}
+
+	if (Q_stricmp(s, "tank") == 0)
+	{
+		SP_monster_tank(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");
+	}
+
+	if (Q_stricmp(s, "chick") == 0)
+	{
+		SP_monster_chick(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");
+	}
+
+	if (Q_stricmp(s, "mutant") == 0)
+	{
+		SP_monster_mutant(self);  
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n");
+	}
+
+	if (Q_stricmp(s, "berserk") == 0)
+	{
+		SP_monster_berserk(self); 
+		gi.cprintf(ent, PRINT_HIGH, "Enemy Spawned\n"); 
+	}
+
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(ent->s.origin, 100, forward, self->s.origin);
+	
 }
 
 
@@ -1076,6 +1333,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_FloatJump_f(ent);
 	else if (Q_stricmp(cmd, "copyability") == 0)
 		Cmd_CopyAbility(ent);
+	else if (Q_stricmp(cmd, "spawn") == 0)
+		Cmd_Spawn_f(ent); 
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

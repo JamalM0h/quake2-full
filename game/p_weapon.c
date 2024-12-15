@@ -795,8 +795,8 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 
 	if (ent->client->floating)
 	{
-		ent->velocity[2] = -900;
-		fire_rocket(ent, ent->s.origin, down, damage, 1200, 250, radius_damage); 
+		ent->velocity[2] = -900; 
+		fire_stone(ent, ent->s.origin, down, damage, 1200, 250, radius_damage); 
 
 	}
 	
@@ -1173,6 +1173,12 @@ void Chaingun_Fire (edict_t *ent)
 		P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 
 		Inhaled(ent);
+
+		if (ent->client->InhaledAbility != NULL)
+		{
+			return;
+		} 
+
 	}
 
 	// send muzzle flash
@@ -1327,11 +1333,16 @@ void weapon_supershotgun_fire (edict_t *ent)
 	v[PITCH] = ent->client->v_angle[PITCH];
 	v[YAW]   = ent->client->v_angle[YAW] - 5;
 	v[ROLL]  = ent->client->v_angle[ROLL];
+	AngleVectors (v, forward, NULL, NULL); 
+	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN); 
+	v[YAW]   = ent->client->v_angle[YAW] + 5; 
 	AngleVectors (v, forward, NULL, NULL);
 	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
-	v[YAW]   = ent->client->v_angle[YAW] + 5;
-	AngleVectors (v, forward, NULL, NULL);
-	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
+	JetAttack(ent);
+	JetAttack(ent);
+	JetAttack(ent);
+	JetAttack(ent);
+	JetAttack(ent);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1480,9 +1491,13 @@ void weapon_bfg_fire (edict_t *ent)
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_bfg (ent, start, forward, damage, 400, damage_radius);
-	fire_rocket(ent, start, forward, damage, 300, 500, 50);
+	fire_rocket(ent, start, forward, 75, 600, 600, 75);
 
 	ent->client->InhaledAbility = NULL;  
+
+	it = FindItem("BFG10K"); 
+	ent->client->pers.selected_item = ITEM_INDEX(it);  
+	ent->client->pers.inventory[ent->client->pers.selected_item] = 0;
 
 	it = FindItem("Chaingun");  
 	it->use(ent, it);  

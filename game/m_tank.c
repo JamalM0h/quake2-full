@@ -350,7 +350,10 @@ void TankBlaster (edict_t *self)
 	end[2] += self->enemy->viewheight;
 	VectorSubtract (end, start, dir);
 
-	monster_fire_blaster (self, start, dir, 30, 800, flash_number, EF_BLASTER);
+	//monster_fire_blaster (self, start, dir, 30, 800, flash_number, EF_BLASTER);
+	fire_grenade2(self, start, forward, 10, 300, 2, 50, false); 
+
+
 }	
 
 void TankStrike (edict_t *self)
@@ -384,7 +387,7 @@ void TankRocket (edict_t *self)
 	monster_fire_rocket (self, start, dir, 50, 550, flash_number);
 }	
 
-void TankMachineGun (edict_t *self)
+void TankMachineGun(edict_t* self)
 {
 	vec3_t	dir;
 	vec3_t	vec;
@@ -394,15 +397,15 @@ void TankMachineGun (edict_t *self)
 
 	flash_number = MZ2_TANK_MACHINEGUN_1 + (self->s.frame - FRAME_attak406);
 
-	AngleVectors (self->s.angles, forward, right, NULL);
-	G_ProjectSource (self->s.origin, monster_flash_offset[flash_number], forward, right, start);
+	AngleVectors(self->s.angles, forward, right, NULL);
+	G_ProjectSource(self->s.origin, monster_flash_offset[flash_number], forward, right, start);
 
 	if (self->enemy)
 	{
-		VectorCopy (self->enemy->s.origin, vec);
+		VectorCopy(self->enemy->s.origin, vec);
 		vec[2] += self->enemy->viewheight;
-		VectorSubtract (vec, start, vec);
-		vectoangles (vec, vec);
+		VectorSubtract(vec, start, vec);
+		vectoangles(vec, vec);
 		dir[0] = vec[0];
 	}
 	else
@@ -415,10 +418,12 @@ void TankMachineGun (edict_t *self)
 		dir[1] = self->s.angles[1] + 8 * (self->s.frame - FRAME_attak419);
 	dir[2] = 0;
 
-	AngleVectors (dir, forward, NULL, NULL);
+	AngleVectors(dir, forward, NULL, NULL);
 
-	monster_fire_bullet (self, start, forward, 20, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_number);
-}	
+	//monster_fire_bullet(self, start, forward, 20, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_number);
+	 
+	fire_grenade(self, start, forward, 10, 300, 2, 50); 
+}
 
 
 mframe_t tank_frames_attack_blast [] =
@@ -843,6 +848,8 @@ void SP_monster_tank (edict_t *self)
 	self->monsterinfo.melee = NULL;
 	self->monsterinfo.sight = tank_sight;
 	self->monsterinfo.idle = tank_idle;
+
+	self->heldAbility = 9;
 
 	gi.linkentity (self);
 	

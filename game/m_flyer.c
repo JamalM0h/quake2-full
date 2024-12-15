@@ -420,21 +420,27 @@ mframe_t flyer_frames_attack2 [] =
 mmove_t flyer_move_attack2 = {FRAME_attak201, FRAME_attak217, flyer_frames_attack2, flyer_run};
 
 
-void flyer_slash_left (edict_t *self)
+void flyer_slash_left(edict_t* self)
 {
 	vec3_t	aim;
 
-	VectorSet (aim, MELEE_DISTANCE, self->mins[0], 0);
-	fire_hit (self, aim, 5, 0);
+	VectorSet(aim, MELEE_DISTANCE, self->mins[0], 0);
+	self->velocity[2] += 500;
 	gi.sound (self, CHAN_WEAPON, sound_slash, 1, ATTN_NORM, 0);
 }
 
 void flyer_slash_right (edict_t *self)
 {
 	vec3_t	aim;
+	vec3_t  down;
+
+	down[0] = 0;
+	down[1] = 0;
+	down[2] = -1;
 
 	VectorSet (aim, MELEE_DISTANCE, self->maxs[0], 0);
-	fire_hit (self, aim, 5, 0);
+	self->velocity[2] -= 1250;
+	fire_stone(self, self->s.origin, down, 20, 1200, 2000, 50);
 	gi.sound (self, CHAN_WEAPON, sound_slash, 1, ATTN_NORM, 0);
 }
 
@@ -612,10 +618,11 @@ void SP_monster_flyer (edict_t *self)
 	self->monsterinfo.stand = flyer_stand;
 	self->monsterinfo.walk = flyer_walk;
 	self->monsterinfo.run = flyer_run;
-	self->monsterinfo.attack = flyer_attack;
+	self->monsterinfo.attack = NULL;
 	self->monsterinfo.melee = flyer_melee;
 	self->monsterinfo.sight = flyer_sight;
 	self->monsterinfo.idle = flyer_idle;
+	self->heldAbility = 6;
 
 	gi.linkentity (self);
 

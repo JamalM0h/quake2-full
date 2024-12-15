@@ -169,8 +169,27 @@ void berserk_run (edict_t *self)
 
 void berserk_attack_spike (edict_t *self)
 {
-	static	vec3_t	aim = {MELEE_DISTANCE, 0, -24};
-	fire_hit (self, aim, (15 + (rand() % 6)), 400);		//	Faster attack -- upwards and backwards
+	//static	vec3_t	aim = {MELEE_DISTANCE, 0, -24};
+	//fire_hit (self, aim, (15 + (rand() % 6)), 400);		//	Faster attack -- upwards and backwards
+
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	vec3_t  down;
+	trace_t	tr;
+	int phealth;
+
+	down[0] = 0;
+	down[1] = 0;
+	down[2] = -1;
+
+	VectorCopy(self->s.origin, start); 
+	start[2] += 2 * self->viewheight;
+	AngleVectors(self->s.angles, forward, NULL, NULL);
+	VectorMA(start, 50, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT);
+
+	fire_rocket(self, tr.endpos, down, 30, 450, 1000, 50);
 }
 
 
@@ -195,10 +214,35 @@ mmove_t berserk_move_attack_spike = {FRAME_att_c1, FRAME_att_c8, berserk_frames_
 
 void berserk_attack_club (edict_t *self)
 {
-	vec3_t	aim;
+	//vec3_t	aim, forward, right, start; 
 
-	VectorSet (aim, MELEE_DISTANCE, self->mins[0], -4);
-	fire_hit (self, aim, (5 + (rand() % 6)), 400);		// Slower attack
+
+	//AngleVectors(self->s.angles, forward, right, NULL);
+	//G_ProjectSource(self->s.origin, monster_flash_offset[MZ2_CHICK_ROCKET_1], forward, right, start); 
+
+	//VectorSet (aim, MELEE_DISTANCE, self->mins[0], -4);
+	//fire_hit (self, aim, (5 + (rand() % 6)), 400);		// Slower attack
+
+	//HammerSlam(self);
+
+	vec3_t	start; 
+	vec3_t	forward; 
+	vec3_t	end; 
+	vec3_t  down; 
+	trace_t	tr; 
+	int phealth; 
+
+	down[0] = 0; 
+	down[1] = 0;  
+	down[2] = -1; 
+
+	VectorCopy(self->s.origin, start); 
+	start[2] += 2 * self->viewheight; 
+	AngleVectors(self->s.angles, forward, NULL, NULL); 
+	VectorMA(start, 50, forward, end); 
+	tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT); 
+
+	fire_rocket(self, tr.endpos, down, 30, 450, 1000, 50); 
 }
 
 mframe_t berserk_frames_attack_club [] =
@@ -447,6 +491,8 @@ void SP_monster_berserk (edict_t *self)
 	self->monsterinfo.melee = berserk_melee;
 	self->monsterinfo.sight = berserk_sight;
 	self->monsterinfo.search = berserk_search;
+
+	self->heldAbility = 8;
 
 	self->monsterinfo.currentmove = &berserk_move_stand;
 	self->monsterinfo.scale = MODEL_SCALE;

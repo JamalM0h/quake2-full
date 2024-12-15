@@ -38,7 +38,7 @@ static int	sound_pain_ss;
 static int	sound_death_light;
 static int	sound_death;
 static int	sound_death_ss;
-static int	sound_cock;
+static int	sound_cock; 
 
 
 void soldier_idle (edict_t *self)
@@ -468,6 +468,7 @@ void soldier_fire (edict_t *self, int flash_number)
 	vec3_t	end;
 	float	r, u;
 	int		flash_index;
+	trace_t tr;
 
 	if (self->s.skinnum < 2)
 		flash_index = blaster_flash[flash_number];
@@ -503,19 +504,37 @@ void soldier_fire (edict_t *self, int flash_number)
 
 	if (self->s.skinnum <= 1)
 	{
-		monster_fire_blaster (self, start, aim, 5, 600, flash_index, EF_BLASTER);
+		//monster_fire_blaster (self, start, aim, 5, 600, flash_index, EF_BLASTER);
+		VectorMA(start, 150, forward, end); 
+		tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT); 
+		if (tr.ent)  
+		{
+			T_Damage(tr.ent, self, self, aim, tr.endpos, tr.plane.normal, 10, 5, DAMAGE_BULLET, MZ_BLASTER); 
+		} 
 	}
 	else if (self->s.skinnum <= 3)
 	{
-		monster_fire_shotgun (self, start, aim, 2, 1, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SHOTGUN_COUNT, flash_index);
+		//monster_fire_shotgun (self, start, aim, 2, 1, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SHOTGUN_COUNT, flash_index);
+		VectorMA(start, 150, forward, end);  
+		tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT); 
+		if (tr.ent) 
+		{
+			T_Damage(tr.ent, self, self, aim, tr.endpos, tr.plane.normal, 10, 5, DAMAGE_BULLET, MZ_BLASTER);
+		}
 	}
 	else
 	{
 		if (!(self->monsterinfo.aiflags & AI_HOLD_FRAME))
 			self->monsterinfo.pausetime = level.time + (3 + rand() % 8) * FRAMETIME;
 
-		monster_fire_bullet (self, start, aim, 2, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_index);
-
+		//monster_fire_bullet (self, start, aim, 2, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_index);
+		VectorMA(start, 150, forward, end);  
+		tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT); 
+		if (tr.ent) 
+		{
+			T_Damage(tr.ent, self, self, aim, tr.endpos, tr.plane.normal, 10, 5, DAMAGE_BULLET, MZ_BLASTER); 
+		}
+		 
 		if (level.time >= self->monsterinfo.pausetime)
 			self->monsterinfo.aiflags &= ~AI_HOLD_FRAME;
 		else
@@ -1199,7 +1218,7 @@ void soldier_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 
 void SP_monster_soldier_x (edict_t *self)
 {
-
+	
 	self->s.modelindex = gi.modelindex ("models/monsters/soldier/tris.md2");
 	self->monsterinfo.scale = MODEL_SCALE;
 	VectorSet (self->mins, -16, -16, -24);

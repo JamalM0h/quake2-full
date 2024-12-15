@@ -323,6 +323,8 @@ void parasite_drain_attack (edict_t *self)
 	VectorSet (offset, 24, 0, 6);
 	G_ProjectSource (self->s.origin, offset, f, r, start);
 
+	VectorScale(f, 200, f); 
+
 	VectorCopy (self->enemy->s.origin, end);
 	if (!parasite_drain_attack_ok(start, end))
 	{
@@ -360,7 +362,11 @@ void parasite_drain_attack (edict_t *self)
 	gi.multicast (self->s.origin, MULTICAST_PVS);
 
 	VectorSubtract (start, end, dir);
+	self->velocity[0] += f[0] * 5; 
+	self->velocity[1] += f[1] * 5; 
 	T_Damage (self->enemy, self, self, dir, self->enemy->s.origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, MOD_UNKNOWN);
+	self->enemy->velocity[0] += f[0];
+	self->enemy->velocity[1] += f[1];
 }
 
 mframe_t parasite_frames_drain [] =
@@ -542,6 +548,8 @@ void SP_monster_parasite (edict_t *self)
 	self->monsterinfo.attack = parasite_attack;
 	self->monsterinfo.sight = parasite_sight;
 	self->monsterinfo.idle = parasite_idle;
+
+	self->heldAbility = 7;
 
 	gi.linkentity (self);
 

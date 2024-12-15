@@ -451,7 +451,12 @@ void hover_fire_blaster (edict_t *self)
 	end[2] += self->enemy->viewheight;
 	VectorSubtract (end, start, dir);
 
-	monster_fire_blaster (self, start, dir, 1, 1000, MZ2_HOVER_BLASTER_1, effect);
+	fire_blaster(self, start, dir, 20, 75, 0, false); 
+	JetAttack2(self); 
+	JetAttack2(self); 
+	JetAttack2(self); 
+	JetAttack2(self);
+	JetAttack2(self); 
 }
 
 
@@ -610,6 +615,8 @@ void SP_monster_hover (edict_t *self)
 	self->monsterinfo.attack = hover_start_attack;
 	self->monsterinfo.sight = hover_sight;
 	self->monsterinfo.search = hover_search;
+
+	self->heldAbility = 3; 
 
 	gi.linkentity (self);
 

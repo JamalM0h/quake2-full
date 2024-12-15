@@ -604,6 +604,7 @@ This is only called when the game first initializes in single player,
 but is called after each death and level change in deathmatch
 ==============
 */
+
 void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
@@ -614,49 +615,7 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
 
-	item = FindItem("Blaster");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Shotgun");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("grenades");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Grenade Launcher");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Super Shotgun");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Machinegun");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Railgun");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("HyperBlaster");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("BFG10K");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Rocket Launcher");
-	client->pers.selected_item = ITEM_INDEX(item); 
-	client->pers.inventory[client->pers.selected_item] = 1;
-
-	item = FindItem("Chaingun");
-
-	client->pers.weapon = item;
+	client->pers.weapon = item; 
 
 	item = FindItem("Bullets");
 	client->pers.inventory[ITEM_INDEX(item)] += 100;
@@ -670,8 +629,8 @@ void InitClientPersistant (gclient_t *client)
 	item = FindItem("Rockets");
 	client->pers.inventory[ITEM_INDEX(item)] += 100;
 
-	item = FindItem("Grenades");
-	client->pers.inventory[ITEM_INDEX(item)] += 100;
+	//item = FindItem("Grenades");
+	//client->pers.inventory[ITEM_INDEX(item)] += 100;
 
 	item = FindItem("Slugs");
 	client->pers.inventory[ITEM_INDEX(item)] += 100;

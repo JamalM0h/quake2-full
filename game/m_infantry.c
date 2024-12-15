@@ -293,7 +293,8 @@ void InfantryMachineGun (edict_t *self)
 		AngleVectors (vec, forward, NULL, NULL);
 	}
 
-	monster_fire_bullet (self, start, forward, 3, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_number);
+	//monster_fire_bullet (self, start, forward, 3, 4, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, flash_number);
+	fire_fire(self, start, forward, 3, 500, 0, false);
 }
 
 void infantry_sight (edict_t *self, edict_t *other)
@@ -585,7 +586,7 @@ void SP_monster_infantry (edict_t *self)
 	self->health = 100;
 	self->gib_health = -40;
 	self->mass = 200;
-	self->heldAbility = 1;
+	self->heldAbility = 4;
 
 	self->pain = infantry_pain;
 	self->die = infantry_die;
